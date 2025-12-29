@@ -2,7 +2,17 @@ import { getTestimonies } from "@/app/actions/testimony";
 import Image from "next/image";
 
 export default async function TestimoniesPage() {
-    const testimonies = await getTestimonies();
+    const response = await getTestimonies();
+
+    if (!response.success) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <p className="text-red-500">Erreur: {response.error}</p>
+            </div>
+        );
+    }
+
+    const testimonies = response.data;
 
     return (
         <div className="min-h-screen bg-gray-50 py-20 px-4">
@@ -49,8 +59,8 @@ export default async function TestimoniesPage() {
 
                                 <div className="mb-6">
                                     <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${testimony.type === 'MIRACLE'
-                                            ? 'bg-purple-100 text-purple-600'
-                                            : 'bg-primary/10 text-primary'
+                                        ? 'bg-purple-100 text-purple-600'
+                                        : 'bg-primary/10 text-primary'
                                         }`}>
                                         {testimony.type === 'MIRACLE' ? '✨ Miracle' : '🗣️ Témoignage'}
                                     </span>
