@@ -15,6 +15,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Set placeholder DATABASE_URL for build (will be overridden at runtime)
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
+
 # Generate Prisma client
 RUN npx prisma generate
 
